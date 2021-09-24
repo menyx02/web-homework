@@ -10,9 +10,14 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+alias Homework.Repo
 alias Homework.Merchants.Merchant
 alias Homework.Transactions.Transaction
 alias Homework.Users.User
+
+
+#company: nike, snickers, m&m's, coke
+#merchants: academy sports, target, walmart, smith's
 
 # Create dummy data for MERCHANTS
 merchants = [

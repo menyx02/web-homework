@@ -22,7 +22,7 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
       arg(:credit_line, non_null(:integer))
       arg(:available_credit, non_null(:integer))
 
-      resolve(&CompanyResolver.create_company/3)
+      resolve(&CompaniesResolver.create_company/3)
     end
 
     @desc "Update a new company"
@@ -31,14 +31,14 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
       arg(:credit_line, non_null(:integer))
       arg(:available_credit, non_null(:integer))
 
-      resolve(&CompanyResolver.update_company/3)
+      resolve(&CompaniesResolver.update_company/3)
     end
 
     @desc "delete an existing company"
     field :delete_company, :company do
       arg(:id, non_null(:id))
 
-      resolve(&CompanyResolver.delete_company/3)
+      resolve(&CompaniesResolver.delete_company/3)
     end
   end
 end

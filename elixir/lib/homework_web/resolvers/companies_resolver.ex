@@ -26,7 +26,7 @@ defmodule HomeworkWeb.Resolvers.CompaniesResolver do
   Updates a company for an id with args specified.
   """
   def update_company(_root, %{id: id} = args, _info) do
-    company = Company.get_company!(id)
+    company = Companies.get_company!(id)
 
     case Companies.update_company(company, args) do
       {:ok, company} ->
@@ -41,7 +41,7 @@ defmodule HomeworkWeb.Resolvers.CompaniesResolver do
   Deletes a company for an id
   """
   def delete_company(_root, %{id: id}, _info) do
-    company = Company.get_company!(id)
+    company = Companies.get_company!(id)
 
     case Companies.delete_company(company) do
       {:ok, company} ->
