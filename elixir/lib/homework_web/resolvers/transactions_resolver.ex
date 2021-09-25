@@ -3,7 +3,9 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
   alias Homework.Transactions
   alias Homework.Users
   alias Homework.Companies
+  alias Homework.Repo
 
+  alias Absinthe.Resolution.Helpers
   @doc """
   Get a list of transcations
   """
@@ -28,8 +30,16 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
   @doc """
   Get the company associated with a transaction
   """
-  def company(_root, _args, %{source: %{company_id: company_id}}) do
-    {:ok, Companies.get_company!{company_id}}
+    # Old implemantation, was giving a binary assignment error
+    # Found N+1 pattern to fix the issue
+
+    # def company(_root, _args, %{source: %{company_id: company_id}}) do
+    # {:ok, Companies.get_company!{company_id}}
+  #end
+ def company(transaction, _args, _source) do
+    Helpers.batch({HomeworkWeb.Resolvers.TransactionsResolver, :by_id, Companies.Company}, transaction.company_id, fn batch_results ->
+      {:ok, Map.get(batch_results, transaction.company_id)}
+    end)
   end
 
   @doc """
@@ -73,5 +83,20 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
       error ->
         {:error, "could not update transaction: #{inspect(error)}"}
     end
+  end
+
+  ## UTIL Methods
+  @doc """
+  Using a model, it grabs the pertinent data based on the ids list
+  """
+  def by_id(model, ids) do
+    import Ecto.Query
+
+    ids = ids |> Enum.uniq
+
+    model
+    |> where([m], m.id in ^ids)
+    |> Repo.all
+    |> Map.new(&{&1.id, &1})
   end
 end
