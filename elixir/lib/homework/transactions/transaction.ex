@@ -14,6 +14,7 @@ defmodule Homework.Transactions.Transaction do
 
     belongs_to(:merchant, Merchant, type: :binary_id, foreign_key: :merchant_id)
     belongs_to(:user, User, type: :binary_id, foreign_key: :user_id)
+    # "Transaction should be a part of a company - Objective 2"
     belongs_to(:company, Company, type: :binary_id, foreign_key: :company_id)
 
     timestamps()

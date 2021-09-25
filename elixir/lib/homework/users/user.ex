@@ -9,7 +9,7 @@ defmodule Homework.Users.User do
     field(:first_name, :string)
     field(:last_name, :string)
 
-    @desc "User should be a part of a company - Objective 2"
+    # "User should be a part of a company - Objective 2"
     belongs_to(:company, Company, type: :binary_id, foreign_key: :company_id)
 
     timestamps()

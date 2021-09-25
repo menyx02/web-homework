@@ -33,7 +33,7 @@ defmodule HomeworkWeb.Resolvers.CompaniesResolver do
   def update_company(_root, %{id: id} = args, _info) do
     company = Companies.get_company!(id)
 
-    company = update_available_credit(company)
+    #company = update_available_credit(company)
 
     IO.puts("here **********")
     IO.puts(company.id)

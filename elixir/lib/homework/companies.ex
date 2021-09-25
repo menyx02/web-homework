@@ -19,7 +19,8 @@ defmodule Homework.Companies do
 
   """
   def list_companies(_args) do
-    Repo.all(Company)
+    Company
+    |> Repo.all()
   end
 
   @doc """
@@ -36,7 +37,9 @@ defmodule Homework.Companies do
       ** (Ecto.NoResultsError)
 
   """
-  def get_company!(id), do: Repo.get!(Company, id)
+  def get_company!(id) do
+    Repo.get!(Company, id)
+  end
 
   @doc """
   Creates a company.

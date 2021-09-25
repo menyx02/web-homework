@@ -10,5 +10,14 @@ defmodule Homework.Repo.Migrations.CreateCompanies do
 
       timestamps()
     end
+
+    alter table(:users) do
+      add(:company_id, references(:companies, type: :uuid, on_delete: :nothing))
+    end
+
+    alter table(:transactions) do
+      add(:company_id, references(:companies, type: :uuid, on_delete: :nothing))
+    end
+
   end
 end

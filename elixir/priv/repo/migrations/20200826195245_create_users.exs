@@ -7,14 +7,9 @@ defmodule Homework.Repo.Migrations.CreateUsers do
       add(:first_name, :string)
       add(:last_name, :string)
       add(:dob, :string)
+      #add(:company_id, :uuid)
 
       timestamps()
-    end
-  end
-
-  def alter do
-    alter table(:users) do
-      add(:company_id, references(:companies, type: :uuid, on_delete: :nothing))
     end
   end
 end

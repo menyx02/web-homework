@@ -16,7 +16,6 @@ alias Homework.Transactions.Transaction
 alias Homework.Users.User
 alias Homework.Companies.Company
 
-
 ## Adding Companies
 company1 = Repo.insert!(
     %Company{
