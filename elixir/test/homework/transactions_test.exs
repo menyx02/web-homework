@@ -5,6 +5,7 @@ defmodule Homework.TransactionsTest do
   alias Homework.Merchants
   alias Homework.Transactions
   alias Homework.Users
+  alias Homework.Companies
 
   describe "transactions" do
     alias Homework.Transactions.Transaction
@@ -19,18 +20,34 @@ defmodule Homework.TransactionsTest do
           name: "some updated name"
         })
 
+      {:ok, company1} =
+        Companies.create_company(%{
+          name: "some company name",
+          credit_line: 2000,
+          available_credit: 2000
+        })
+
+      {:ok, company2} =
+        Companies.create_company(%{
+          name: "some company name",
+          credit_line: 1000,
+          available_credit: 1000
+        })
+
       {:ok, user1} =
         Users.create_user(%{
           dob: "some dob",
           first_name: "some first_name",
-          last_name: "some last_name"
+          last_name: "some last_name",
+          company_id: company1.id
         })
 
       {:ok, user2} =
         Users.create_user(%{
           dob: "some updated dob",
           first_name: "some updated first_name",
-          last_name: "some updated last_name"
+          last_name: "some updated last_name",
+          company_id: company2.id
         })
 
       valid_attrs = %{
@@ -39,7 +56,8 @@ defmodule Homework.TransactionsTest do
         debit: true,
         description: "some description",
         merchant_id: merchant1.id,
-        user_id: user1.id
+        user_id: user1.id,
+        company_id: company1.id
       }
 
       update_attrs = %{
@@ -48,7 +66,8 @@ defmodule Homework.TransactionsTest do
         debit: false,
         description: "some updated description",
         merchant_id: merchant2.id,
-        user_id: user2.id
+        user_id: user2.id,
+        company_id: company2.id
       }
 
       invalid_attrs = %{
@@ -57,7 +76,8 @@ defmodule Homework.TransactionsTest do
         debit: nil,
         description: nil,
         merchant_id: nil,
-        user_id: nil
+        user_id: nil,
+        company_id: nil
       }
 
       {:ok,
@@ -68,7 +88,9 @@ defmodule Homework.TransactionsTest do
          merchant1: merchant1,
          merchant2: merchant2,
          user1: user1,
-         user2: user2
+         user2: user2,
+         company1: company1,
+         company2: company2
        }}
     end
 
