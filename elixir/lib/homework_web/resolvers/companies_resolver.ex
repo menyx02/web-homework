@@ -1,5 +1,6 @@
 defmodule HomeworkWeb.Resolvers.CompaniesResolver do
   alias Homework.Companies
+  alias Homework.Transactions
 
   @doc """
   Get a list of companies
@@ -62,35 +63,37 @@ defmodule HomeworkWeb.Resolvers.CompaniesResolver do
         {:error, "could not update company: #{inspect(error)}"}
     end
   end
-end
 
+  ## UTIL METHODS ***********
 
-# UTIL METHODS *******
-@doc """
-Calculates the available credit for a company based on its transactions.
+  @doc """
+  Calculates the available credit for a company based on its transactions.
 
-## Examples
+  ## Examples
 
     iex> calculate_available_credit(transactions)
     {:ok, :available_credit}
-"""
-def calculate_available_credit(transactions) do
-  fn(company) ->
-    total_amount_spent = Enum.reduce(transactions, 0, fn t, acc -> t.amount +  acc end)
-    company.credit_line - round(total_amount_spent / 100)
+  """
+  def calculate_available_credit(transactions) do
+    fn(company) ->
+      total_amount_spent = Enum.reduce(transactions, 0, fn t, acc -> t.amount +  acc end)
+     company.credit_line - round(total_amount_spent / 100)
+   end
+  end
+
+  @doc """
+  Updates the available credit property for a company.
+
+  ## Examples
+
+    iex > update_available_credit(company)
+    {:ok, %Company{}}
+  """
+  def update_available_credit(company) do
+   transactions = Transactions.get_company_transactions(company.id)
+    calculate = calculate_available_credit(transactions)
+    Map.put(company, :available_credit, calculate.(company))
   end
 end
 
-@doc """
-Updates the available credit property for a company.
 
-## Examples
-
-  iex > update_available_credit(company)
-  {:ok, %Company{}}
-"""
-def update_available_credit(company) do
-  transactions = Transactions.get_company_transactions(company.id)
-  calculate = calculate_available_credit(transactions)
-  Map.put(company, :available_credit, calculate.(company))
-end
