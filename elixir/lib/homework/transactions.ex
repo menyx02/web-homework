@@ -102,3 +102,9 @@ defmodule Homework.Transactions do
     Transaction.changeset(transaction, attrs)
   end
 end
+
+
+def get_company_transactions(company_id) do
+    Repo.all(from t in Transaction,
+              where: t.company_id == ^company_id)
+  end

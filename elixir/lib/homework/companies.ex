@@ -7,7 +7,7 @@ defmodule Homework.Companies do
   alias Homework.Repo
 
   alias Homework.Companies.Company
-  alias Homework.Transactions.Transaction
+  alias Homework.Transactions
 
   @doc """
   Returns the list of companies.
@@ -54,6 +54,7 @@ defmodule Homework.Companies do
     %Company{}
     |> Company.changeset(attrs)
     |> Repo.insert()
+
   end
 
   @doc """
