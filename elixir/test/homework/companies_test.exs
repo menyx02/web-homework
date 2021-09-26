@@ -1,72 +1,81 @@
-defmodule Homework.UsersTest do
+defmodule Homework.CompaniesTest do
   use Homework.DataCase
 
-  alias Homework.Users
+  alias Homework.Companies
 
-  describe "users" do
-    alias Homework.Users.User
+  describe "companies" do
+    alias Homework.Companies.Company
 
-    @valid_attrs %{dob: "some dob", first_name: "some first_name", last_name: "some last_name"}
-    @update_attrs %{
-      dob: "some updated dob",
-      first_name: "some updated first_name",
-      last_name: "some updated last_name"
+    @valid_attrs %{
+      name: "some name",
+      credit_line: 100,
+      available_credit: 100
     }
-    @invalid_attrs %{dob: nil, first_name: nil, last_name: nil}
 
-    def user_fixture(attrs \\ %{}) do
-      {:ok, user} =
+    @update_attrs %{
+      name: "some updated name",
+      credit_line: 200,
+      available_credit: 200
+    }
+    @invalid_attrs %{
+      name: nil,
+      credit_line: nil,
+      available_credit: nil
+    }
+
+    def company_fixture(attrs \\ %{}) do
+      {:ok, company} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Users.create_user()
+        |> Companies.create_company()
 
-      user
+      company
     end
 
-    test "list_users/1 returns all users" do
-      user = user_fixture()
-      assert Users.list_users([]) == [user]
+    test "list_companies/1 returns all companies" do
+      company = company_fixture()
+      assert Companies.list_companies([]) == [company]
     end
 
-    test "get_user!/1 returns the user with given id" do
-      user = user_fixture()
-      assert Users.get_user!(user.id) == user
+    test "get_company!/1 returns the company with given id" do
+      company = company_fixture()
+      assert Companies.get_company!(company.id) == company
     end
 
-    test "create_user/1 with valid data creates a user" do
-      assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
-      assert user.dob == "some dob"
-      assert user.first_name == "some first_name"
-      assert user.last_name == "some last_name"
+    test "create_company/1 with valid data creates a company" do
+      assert {:ok, %Company{} = company} = Companies.create_company(@valid_attrs)
+      assert company.name == "some name"
+      assert company.credit_line == 100
+      assert company.available_credit == 100
     end
 
-    test "create_user/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Users.create_user(@invalid_attrs)
+    test "create_company/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Companies.create_company(@invalid_attrs)
     end
 
-    test "update_user/2 with valid data updates the user" do
-      user = user_fixture()
-      assert {:ok, %User{} = user} = Users.update_user(user, @update_attrs)
-      assert user.dob == "some updated dob"
-      assert user.first_name == "some updated first_name"
-      assert user.last_name == "some updated last_name"
+    test "update_company/2 with valid data updates the company" do
+      company = company_fixture()
+      assert {:ok, %Company{} = company} = Companies.update_company(company, @update_attrs)
+      assert company.name == "some updated name"
+      assert company.credit_line == 200
+      assert company.available_credit == 200
     end
 
-    test "update_user/2 with invalid data returns error changeset" do
-      user = user_fixture()
-      assert {:error, %Ecto.Changeset{}} = Users.update_user(user, @invalid_attrs)
-      assert user == Users.get_user!(user.id)
+    test "update_company/2 with invalid data returns error changeset" do
+      company = company_fixture()
+      assert {:error, %Ecto.Changeset{}} = Companies.update_company(company, @invalid_attrs)
+      assert company == Companies.get_company!(company.id)
     end
 
-    test "delete_user/1 deletes the user" do
-      user = user_fixture()
-      assert {:ok, %User{}} = Users.delete_user(user)
-      assert_raise Ecto.NoResultsError, fn -> Users.get_user!(user.id) end
+    test "delete_company/1 deletes the company" do
+      company = company_fixture()
+      assert {:ok, %Company{}} = Companies.delete_company(company)
+      assert_raise Ecto.NoResultsError, fn -> Companies.get_company!(company.id) end
     end
 
-    test "change_user/1 returns a user changeset" do
-      user = user_fixture()
-      assert %Ecto.Changeset{} = Users.change_user(user)
+    test "change_company/1 returns a company changeset" do
+      company = company_fixture()
+      assert %Ecto.Changeset{} = Companies.change_company(company)
     end
   end
 end

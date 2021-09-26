@@ -2,6 +2,7 @@ defmodule HomeworkWeb.Resolvers.UsersResolver do
   alias Homework.Users
   alias Homework.Companies
 
+
   @doc """
   Get a list of users
   """
@@ -15,6 +16,7 @@ defmodule HomeworkWeb.Resolvers.UsersResolver do
   def company(_root, _args, %{source: %{company_id: company_id}}) do
     {:ok, Companies.get_company!(company_id)}
   end
+
 
   @doc """
   Creates a user
