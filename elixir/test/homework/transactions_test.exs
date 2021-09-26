@@ -12,7 +12,10 @@ defmodule Homework.TransactionsTest do
 
     setup do
       {:ok, merchant1} =
-        Merchants.create_merchant(%{description: "some description", name: "some name"})
+        Merchants.create_merchant(%{
+          description: "some description",
+          name: "some name"
+        })
 
       {:ok, merchant2} =
         Merchants.create_merchant(%{
@@ -116,7 +119,8 @@ defmodule Homework.TransactionsTest do
     test "create_transaction/1 with valid data creates a transaction", %{
       valid_attrs: valid_attrs,
       merchant1: merchant1,
-      user1: user1
+      user1: user1,
+      company1: company1
     } do
       assert {:ok, %Transaction{} = transaction} = Transactions.create_transaction(valid_attrs)
       assert transaction.amount == 42
@@ -125,6 +129,7 @@ defmodule Homework.TransactionsTest do
       assert transaction.description == "some description"
       assert transaction.merchant_id == merchant1.id
       assert transaction.user_id == user1.id
+      assert transaction.company_id == company1.id
     end
 
     test "create_transaction/1 with invalid data returns error changeset", %{
@@ -137,7 +142,8 @@ defmodule Homework.TransactionsTest do
       valid_attrs: valid_attrs,
       update_attrs: update_attrs,
       merchant2: merchant2,
-      user2: user2
+      user2: user2,
+      company2: company2
     } do
       transaction = transaction_fixture(valid_attrs)
 
@@ -150,6 +156,7 @@ defmodule Homework.TransactionsTest do
       assert transaction.description == "some updated description"
       assert transaction.merchant_id == merchant2.id
       assert transaction.user_id == user2.id
+
     end
 
     test "update_transaction/2 with invalid data returns error changeset", %{
