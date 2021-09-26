@@ -33,9 +33,16 @@ defmodule HomeworkWeb.Resolvers.CompaniesResolver do
   def update_company(_root, %{id: id} = args, _info) do
     company = Companies.get_company!(id)
 
-    #company = update_available_credit(company)
+    IO.puts("before **********")
+    IO.puts(company.id)
+    IO.puts(company.name)
+    IO.puts(company.available_credit)
 
-    IO.puts("here **********")
+    transactions = Transactions.get_transactions_by_company_id(company.id)
+    available_credit = calculate_available_credit(transactions)
+    |> company.available_credit
+
+    IO.puts("after **********")
     IO.puts(company.id)
     IO.puts(company.name)
     IO.puts(company.available_credit)
@@ -90,7 +97,7 @@ defmodule HomeworkWeb.Resolvers.CompaniesResolver do
     {:ok, %Company{}}
   """
   def update_available_credit(company) do
-   transactions = Transactions.get_company_transactions(company.id)
+   transactions = Transactions.get_transactions_by_company_id(company.id)
     calculate = calculate_available_credit(transactions)
     Map.put(company, :available_credit, calculate.(company))
   end
